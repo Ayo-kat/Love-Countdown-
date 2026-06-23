@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️ Our Love Countdown</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div id="hearts-container"></div>
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-inner">
+            <span class="logo">❤️ {{ couple_names[0] }} & {{ couple_names[1] }}</span>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#timer">Timer</a></li>
+                <li><a href="#anniversary">Anniversary</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#notes">Notes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content glass">
+            <h1>{{ couple_names[0] }} ❤️ {{ couple_names[1] }}</h1>
+            <p class="headline">{{ headline }}</p>
+            <p class="welcome">Welcome to our love story ✨</p>
+            <a href="#timer" class="btn-primary">See Our Time</a>
+        </div>
+    </section>
+
+    <!-- Timer Section -->
+    <section id="timer" class="section timer-section">
+        <h2>⏳ Together For</h2>
+        <div class="timer-grid">
+            <div class="time-card"><span id="years">0</span><label>Years</label></div>
+            <div class="time-card"><span id="months">0</span><label>Months</label></div>
+            <div class="time-card"><span id="days">0</span><label>Days</label></div>
+            <div class="time-card"><span id="hours">0</span><label>Hours</label></div>
+            <div class="time-card"><span id="minutes">0</span><label>Minutes</label></div>
+            <div class="time-card"><span id="seconds">0</span><label>Seconds</label></div>
+        </div>
+        <p class="since">Since {{ start_date }}</p>
+    </section>
+
+    <!-- Anniversary Countdown -->
+    <section id="anniversary" class="section anniversary-section">
+        <h2>🎉 Next Anniversary</h2>
+        <div class="anniversary-card glass">
+            <p class="ann-date">{{ ann_info.next_date }}</p>
+            <div class="countdown-grid">
+                <div class="countdown-item"><span id="ann-days">0</span><label>Days</label></div>
+                <div class="countdown-item"><span id="ann-hours">0</span><label>Hours</label></div>
+                <div class="countdown-item"><span id="ann-minutes">0</span><label>Minutes</label></div>
+                <div class="countdown-item"><span id="ann-seconds">0</span><label>Seconds</label></div>
+            </div>
+            {% if ann_info.is_anniversary %}
+            <div class="anniversary-message">
+                <h3>🎊 Happy Anniversary! 🎊</h3>
+                <p>Today is our special day!</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section id="gallery" class="section gallery-section">
+        <h2>📸 Our Memories</h2>
+        <div class="gallery-grid">
+            {% for img in gallery_images %}
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/gallery/' + img) }}" alt="Gallery image" loading="lazy">
+            </div>
+            {% else %}
+            <p>Add photos to <code>static/images/gallery/</code></p>
+            {% endfor %}
+        </div>
+        <!-- Lightbox (hidden initially) -->
+        <div id="lightbox" class="lightbox">
+            <span class="close-lightbox">&times;</span>
+            <img class="lightbox-content" id="lightbox-img" src="" alt="">
+        </div>
+    </section>
+
+    <!-- Love Notes -->
+    <section id="notes" class="section notes-section">
+        <h2>💌 Love Notes</h2>
+        <div class="notes-grid">
+            {% for note in love_notes %}
+            <div class="note-card glass">
+                <span class="note-date">{{ note.date }}</span>
+                <h3>{{ note.title }}</h3>
+                <p>{{ note.message }}</p>
+            </div>
+            {% else %}
+            <p>No notes yet. Add some in <code>data/love_notes.json</code></p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with ❤️ by {{ couple_names[0] }} & {{ couple_names[1] }}</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
